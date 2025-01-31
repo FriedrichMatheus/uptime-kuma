@@ -49,7 +49,12 @@
                     >
                         <template #item="monitor">
                             <div class="item" data-testid="monitor">
-                                <div class="row">
+                                <div
+                                    class="row"
+                                    @click="
+                                        () => toggleDropdown(monitor.element.id)
+                                    "
+                                >
                                     <div class="col-9 col-md-8 small-padding">
                                         <div class="info">
                                             <font-awesome-icon
@@ -153,6 +158,7 @@
                                         />
                                     </div>
                                     <div
+                                        v-if="showDropdown[monitor.element.id]"
                                         class="shadow-box big-padding text-center ping-chart-wrapper"
                                     >
                                         <div class="row">
@@ -210,7 +216,9 @@ export default {
         },
     },
     data() {
-        return {};
+        return {
+            showDropdown: [],
+        };
     },
     computed: {
         showGroupDrag() {
@@ -219,6 +227,15 @@ export default {
     },
     created() {},
     methods: {
+        toggleDropdown(monitorId) {
+            this.showDropdown[monitorId] = !this.showDropdown[monitorId];
+        },
+        refreshPingChart() {
+            console.log("Atualizando PingChart...");
+        },
+        openDetails() {
+            console.log("Abrindo detalhes...");
+        },
         /**
          * Remove the specified group
          * @param {number} index Index of group to remove
@@ -314,6 +331,13 @@ export default {
 
 <style lang="scss" scoped>
 @import "../assets/vars";
+
+.dropdown-toggle {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
 
 .extra-info {
     display: flex;
